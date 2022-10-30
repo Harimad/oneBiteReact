@@ -8,7 +8,7 @@ const DiaryList = ({ diaryList }) => {
       <h4>{diaryList.length}개의 일기가 있습니다.</h4>
       <div>
         {diaryList.map(it => (
-          <DiaryItem key={`diaryitem_${it.id}`} id={it.id} {...it}></DiaryItem>
+          <DiaryItem key={`diaryitem_${it.id}`} {...it}></DiaryItem>
         ))}
       </div>
     </div>

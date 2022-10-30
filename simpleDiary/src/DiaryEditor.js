@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-const DiaryEditor = () => {
+const DiaryEditor = ({ onCreate }) => {
   const [diary, setDiary] = useState({
     author: '',
     content: '',
@@ -23,7 +23,13 @@ const DiaryEditor = () => {
       contentRef.current.focus();
       return;
     }
+    onCreate(diary.author, diary.content, diary.emotion);
     alert('일기가 성공적으로 추가되었습니다.');
+    setDiary({
+      author: '',
+      content: '',
+      emotion: 1,
+    });
   };
 
   const authorRef = useRef(null);
