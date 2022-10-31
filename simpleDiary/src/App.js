@@ -21,10 +21,18 @@ function App() {
     setData([newItem, ...data]);
   };
 
-  const onDelete = targetId => {
+  const onRemove = targetId => {
     console.log(`${targetId}가 삭제 되었습니다.`);
     const filteredData = data.filter(it => it.id !== targetId);
     setData(filteredData);
+  };
+
+  const onEdit = (targetId, newContent) => {
+    setData(
+      data.map(item =>
+        item.id === targetId ? { ...item, content: newContent } : item
+      )
+    );
   };
 
   return (
@@ -33,7 +41,11 @@ function App() {
         onCreate={onCreate}
         className="DiaryEditor_container"
       ></DiaryEditor>
-      <DiaryList onDelete={onDelete} diaryList={data}></DiaryList>
+      <DiaryList
+        diaryList={data}
+        onRemove={onRemove}
+        onEdit={onEdit}
+      ></DiaryList>
     </div>
   );
 }
