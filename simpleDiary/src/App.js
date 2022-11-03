@@ -27,19 +27,18 @@ function App() {
     setData(data => [newItem, ...data]);
   }, []);
 
-  const onRemove = targetId => {
+  const onRemove = useCallback(targetId => {
     console.log(`${targetId}가 삭제 되었습니다.`);
-    const filteredData = data.filter(it => it.id !== targetId);
-    setData(filteredData);
-  };
+    setData(data => data.filter(it => it.id !== targetId));
+  }, []);
 
-  const onEdit = (targetId, newContent) => {
-    setData(
+  const onEdit = useCallback((targetId, newContent) => {
+    setData(data =>
       data.map(item =>
         item.id === targetId ? { ...item, content: newContent } : item
       )
     );
-  };
+  }, []);
   const getData = async () => {
     let res = await fetch('https://jsonplaceholder.typicode.com/comments').then(
       res => res.json()

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { memo, useState, useRef, useEffect } from 'react';
 
 const DiaryItem = ({
   onEdit,
@@ -9,6 +9,10 @@ const DiaryItem = ({
   emotion,
   created_date,
 }) => {
+  useEffect(() => {
+    console.log(`${id}번 일기 아이템 Render`);
+  });
+
   const [isEditNow, setIsEditNow] = useState(false);
   const toggleIsEditNow = () => setIsEditNow(!isEditNow);
 
@@ -70,4 +74,4 @@ const DiaryItem = ({
   );
 };
 
-export default DiaryItem;
+export default memo(DiaryItem); // memo로 감싸기
