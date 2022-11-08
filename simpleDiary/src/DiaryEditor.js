@@ -1,43 +1,47 @@
-import React, { useRef, useState, memo, useEffect } from 'react';
-const DiaryEditor = ({ onCreate }) => {
+import React, { useRef, useState, memo, useEffect, useContext } from 'react'
+import { DiaryDispatchContext } from './App'
+
+const DiaryEditor = () => {
+  const { onCreate } = useContext(DiaryDispatchContext)
+
   useEffect(() => {
-    console.log('DiaryEditor 렌더');
-  });
+    console.log('DiaryEditor 렌더')
+  })
 
   const [diary, setDiary] = useState({
     author: '',
     content: '',
     emotion: 1,
-  });
+  })
   const handleChangeDiary = e => {
     setDiary({
       ...diary,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
 
   const handleAddButtonClick = () => {
-    console.log('추가될 일기 : ', diary);
+    console.log('추가될 일기 : ', diary)
 
     if (diary.author.length < 1) {
-      authorRef.current.focus();
-      return;
+      authorRef.current.focus()
+      return
     }
     if (diary.content.length < 5) {
-      contentRef.current.focus();
-      return;
+      contentRef.current.focus()
+      return
     }
-    onCreate(diary.author, diary.content, diary.emotion);
-    alert('일기가 성공적으로 추가되었습니다.');
+    onCreate(diary.author, diary.content, diary.emotion)
+    alert('일기가 성공적으로 추가되었습니다.')
     setDiary({
       author: '',
       content: '',
       emotion: 1,
-    });
-  };
+    })
+  }
 
-  const authorRef = useRef(null);
-  const contentRef = useRef(null);
+  const authorRef = useRef(null)
+  const contentRef = useRef(null)
 
   return (
     <div className="DiaryEditor_container">
@@ -77,7 +81,7 @@ const DiaryEditor = ({ onCreate }) => {
       </div>
       <button onClick={handleAddButtonClick}>일기 저장하기</button>
     </div>
-  );
-};
+  )
+}
 
-export default memo(DiaryEditor);
+export default memo(DiaryEditor)

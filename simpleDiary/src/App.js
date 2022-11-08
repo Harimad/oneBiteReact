@@ -4,10 +4,14 @@ import React, {
   useMemo,
   useCallback,
   useReducer,
+  createContext,
 } from 'react'
 import './App.css'
 import DiaryEditor from './DiaryEditor'
 import DiaryList from './DiaryList'
+
+export const DiaryStateContext = createContext(null)
+export const DiaryDispatchContext = createContext(null)
 
 const reducer = (state, action) => {
   // eslint-disable-next-line default-case
@@ -100,24 +104,31 @@ function App() {
   const memoizedDiaryAnalysis = useMemo(getDiaryAnalysis, [data.length])
   const { goodCount, badCount, goodRatio } = memoizedDiaryAnalysis
 
+  const store = {
+    data,
+    onCreate,
+    onEdit,
+    onRemove,
+  }
+
+  const memoizedDistpatch = useMemo(() => {
+    return { onCreate, onRemove, onEdit }
+  }, [])
+
   return (
-    <div className="App">
-      <DiaryEditor
-        onCreate={onCreate}
-        className="DiaryEditor_container"
-      ></DiaryEditor>
+    <DiaryStateContext.Provider value={store}>
+      <DiaryDispatchContext.Provider value={memoizedDistpatch}>
+        <div className="App">
+          <DiaryEditor></DiaryEditor>
+          <div>전체 일기 : {data.length}</div>
+          <div>기분 좋은 일기 개수 : {goodCount}</div>
+          <div>기분 나쁜 일기 개수 : {badCount}</div>
+          <div>기분 좋은 일기 비율 : {goodRatio}%</div>
 
-      <div>전체 일기 : {data.length}</div>
-      <div>기분 좋은 일기 개수 : {goodCount}</div>
-      <div>기분 나쁜 일기 개수 : {badCount}</div>
-      <div>기분 좋은 일기 비율 : {goodRatio}%</div>
-
-      <DiaryList
-        diaryList={data}
-        onRemove={onRemove}
-        onEdit={onEdit}
-      ></DiaryList>
-    </div>
+          <DiaryList></DiaryList>
+        </div>
+      </DiaryDispatchContext.Provider>
+    </DiaryStateContext.Provider>
   )
 }
 

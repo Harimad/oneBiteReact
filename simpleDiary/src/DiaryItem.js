@@ -1,44 +1,39 @@
-import React, { memo, useState, useRef, useEffect } from 'react';
+import React, { memo, useState, useRef, useEffect, useContext } from 'react'
+import { DiaryDispatchContext } from './App'
 
-const DiaryItem = ({
-  onEdit,
-  onRemove,
-  id,
-  author,
-  content,
-  emotion,
-  created_date,
-}) => {
+const DiaryItem = ({ id, author, content, emotion, created_date }) => {
+  const { onRemove, onEdit } = useContext(DiaryDispatchContext)
+
   useEffect(() => {
-    console.log(`${id}번 일기 아이템 Render`);
-  });
+    console.log(`${id}번 일기 아이템 Render`)
+  })
 
-  const [isEditNow, setIsEditNow] = useState(false);
-  const toggleIsEditNow = () => setIsEditNow(!isEditNow);
+  const [isEditNow, setIsEditNow] = useState(false)
+  const toggleIsEditNow = () => setIsEditNow(!isEditNow)
 
-  const [localContent, setLocalContent] = useState(content);
-  const localContentRef = useRef(null);
+  const [localContent, setLocalContent] = useState(content)
+  const localContentRef = useRef(null)
 
   const handleClickDelete = () => {
     if (window.confirm(`${id}번 째 일기를 삭제하시겠습니까?`)) {
-      onRemove(id);
+      onRemove(id)
     }
-  };
+  }
   const handleClickEdit = () => {
     if (localContent.length < 1) {
-      localContentRef.current.focus();
-      return;
+      localContentRef.current.focus()
+      return
     }
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
-      onEdit(id, localContent);
-      toggleIsEditNow();
+      onEdit(id, localContent)
+      toggleIsEditNow()
     }
-  };
+  }
 
   const handleQuitEdit = () => {
-    setLocalContent(content);
-    toggleIsEditNow();
-  };
+    setLocalContent(content)
+    toggleIsEditNow()
+  }
   return (
     <div className="DiaryItem_container">
       <div className="info">
@@ -71,7 +66,7 @@ const DiaryItem = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default memo(DiaryItem); // memo로 감싸기
+export default memo(DiaryItem) // memo로 감싸기
