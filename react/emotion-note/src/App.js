@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import New from './pages/New'
 import Edit from './pages/Edit'
@@ -11,13 +11,12 @@ const App = () => {
     <div className="App">
       <Router>
         <Nav></Nav>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/new" component={New} />
-          <Route path="/edit" component={Edit} />
-          <Route path="/diary" component={Diary} />
-          {/* <Route path="/diary/:id" component={Diary} /> */}
-        </Switch>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/new" element={<New />} />
+          <Route path="/edit" element={<Edit />} />
+          <Route path="/diary/:id" element={<Diary />} />
+        </Routes>
       </Router>
     </div>
   )
